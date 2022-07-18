@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:story_highlights/data/demo_story_data.dart';
+import 'package:story_highlights/homepage/widgets/first_page.dart';
 import 'package:story_highlights/homepage/widgets/story_card.dart';
 
 class HomePage extends StatefulWidget {
@@ -41,22 +42,20 @@ class _HomePageState extends State<HomePage> {
       ),
       body: PageView.builder(
         controller: ctrl,
-        itemCount: stories.length,
+        itemCount: stories.length + 1,
         itemBuilder: (context, index) {
-          bool active = index == currentIndex;
-          final story = stories[index];
+          if (index == 0) {
+            return const FirstPage();
+          } else if (stories.length >= index) {
+            bool active = index == currentIndex;
+            final story = stories[index - 1];
 
-          final double blur = active ? 30 : 0;
-          final double offset = active ? 20 : 0;
-          final double top = active ? 100 : 200;
-
-          return StoryCard(
-            active: active,
-            story: story,
-            blur: blur,
-            offset: offset,
-            top: top,
-          );
+            return StoryCard(
+              active: active,
+              story: story,
+            );
+          }
+          throw '';
 
           // return AnimatedContainer(
           //   duration: const Duration(
