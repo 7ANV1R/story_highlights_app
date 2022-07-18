@@ -60,7 +60,7 @@ class StoryCard extends StatelessWidget {
                     story['title'],
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
-                      fontSize: 34,
+                      fontSize: 26,
                       fontWeight: FontWeight.w600,
                       color: Colors.white,
                     ),
