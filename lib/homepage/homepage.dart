@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:story_highlights/data/demo_story_data.dart';
+import 'package:story_highlights/homepage/widgets/story_card.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -9,6 +11,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final stories = storyData;
   final PageController ctrl = PageController(viewportFraction: 0.8);
 
   int currentIndex = 0;
@@ -38,40 +41,50 @@ class _HomePageState extends State<HomePage> {
       ),
       body: PageView.builder(
         controller: ctrl,
-        itemCount: 5,
+        itemCount: stories.length,
         itemBuilder: (context, index) {
           bool active = index == currentIndex;
+          final story = stories[index];
 
           final double blur = active ? 30 : 0;
           final double offset = active ? 20 : 0;
           final double top = active ? 100 : 200;
 
-          return AnimatedContainer(
-            duration: const Duration(
-              milliseconds: 500,
-            ),
-            curve: Curves.easeOutQuint,
-            margin: EdgeInsets.only(
-              top: top,
-              bottom: 50,
-              right: 30,
-            ),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
-              image: const DecorationImage(
-                fit: BoxFit.cover,
-                image: NetworkImage(
-                    'https://images.unsplash.com/photo-1516939884455-1445c8652f83?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1974&q=80'),
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey,
-                  blurRadius: blur,
-                  offset: Offset(offset, offset),
-                ),
-              ],
-            ),
+          return StoryCard(
+            active: active,
+            story: story,
+            blur: blur,
+            offset: offset,
+            top: top,
           );
+
+          // return AnimatedContainer(
+          //   duration: const Duration(
+          //     milliseconds: 500,
+          //   ),
+          //   curve: Curves.easeOutQuint,
+          //   margin: EdgeInsets.only(
+          //     top: top,
+          //     bottom: 50,
+          //     right: 30,
+          //   ),
+          //   decoration: BoxDecoration(
+          //     borderRadius: BorderRadius.circular(16),
+          //     image: DecorationImage(
+          //       fit: BoxFit.cover,
+          //       image: AssetImage(story['imgSrc']),
+
+          //       // image: AssetImage(story['imgSrc']),
+          //     ),
+          //     boxShadow: [
+          //       BoxShadow(
+          //         color: Colors.grey,
+          //         blurRadius: blur,
+          //         offset: Offset(offset, offset),
+          //       ),
+          //     ],
+          //   ),
+          // );
         },
       ),
     );
